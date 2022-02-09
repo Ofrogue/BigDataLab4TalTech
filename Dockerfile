@@ -2,7 +2,7 @@
 FROM ubuntu:20.04
 MAINTAINER Wissem Inoubli (inoubliwissem@gmail.com)
 # install the required softwares (JDK, openssh, wget)
-RUN apt-get update -y && apt-get install vim -y && apt-get install wget -y && apt-get install ssh -y && apt-get install openjdk-8-jdk -y && apt-get install sudo -y && apt-get install scala -y
+RUN apt-get update -y && apt-get install nano -y && apt-get install wget -y && apt-get install ssh -y && apt-get install openjdk-8-jdk -y && apt-get install sudo -y && apt-get install scala -y
 # create a new user and add it as sudoer
 RUN useradd -m hduser && echo "hduser:supergroup" | chpasswd && adduser hduser sudo && echo "hduser     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && cd /usr/bin/ &&  ln -s python3 python
 # set the workspace
@@ -44,3 +44,5 @@ ENV PATH=$PATH:$SPARK_HOME/bin
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 #open the used ports
 EXPOSE 50070 50075 50010 50020 50090 8020 9000 9864 9870 10020 19888 8088 8030 8031 8032 8033 8040 8042 22 7077 7070 8080 8081
+# start ssh server on start
+ENTRYPOINT service ssh restart && bash
